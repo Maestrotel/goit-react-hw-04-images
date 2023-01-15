@@ -1,38 +1,30 @@
-// import PropTypes from 'prop-types';
+import { useState } from 'react';
 import css from './ImageGalleryItem.module.css';
 import { Modal } from '../Modal/Modal';
-import { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export class ImageGalleryItem extends Component {
-  state = {
-    isModalShown: false,
-  };
+export const ImageGalleryItem = ({ webformatURL, largeImageURL }) => {
+  const [isModalShown, setIsModalShown] = useState(false);
 
-  onSwitchModal = () => {
+  const onSwitchModal = () => {
     // this.setState({ isModalShown: !this.state.isModalShown });
-    this.setState(prevState => ({ isModalShown: !prevState.isModalShown }));
+    setIsModalShown(prevState => !prevState);
   };
 
-  render() {
-    return (
-      <li className={css.ImageGalleryItem}>
-        <img
-          onClick={this.onSwitchModal}
-          className={css.ImageGalleryItemImage}
-          src={this.props.webformatURL}
-          alt="img"
-        />
-        {this.state.isModalShown && (
-          <Modal
-            largeImageURL={this.props.largeImageURL}
-            onClose={this.onSwitchModal}
-          />
-        )}
-      </li>
-    );
-  }
-}
+  return (
+    <li className={css.ImageGalleryItem}>
+      <img
+        onClick={onSwitchModal}
+        className={css.ImageGalleryItemImage}
+        src={webformatURL}
+        alt="img"
+      />
+      {isModalShown && (
+        <Modal largeImageURL={largeImageURL} onClose={onSwitchModal} />
+      )}
+    </li>
+  );
+};
 
 ImageGalleryItem.propTypes = {
   webformatURL: PropTypes.string.isRequired,
